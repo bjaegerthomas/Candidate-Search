@@ -13,8 +13,7 @@ const CandidateSearch = () => {
     company: '',
   });
 
-  const candidateList =
-
+  const candidateList = searchGithub();
 
   const addToSavedList = () => {
     let parsedSavedCandidates: Candidate[] = [];
@@ -30,9 +29,8 @@ const CandidateSearch = () => {
     <>
       <h1>CandidateSearch</h1>;
       <CandidateCard
-        currentFilm={currentFilm}
-        addToWatchList={addToWatchList}
-        addToSeenItList={addToSeenItList}
+        currentCandidate={currentCandidate}
+        addToSavedList={addToSavedList}
       />
     </>
   );
