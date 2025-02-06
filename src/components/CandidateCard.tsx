@@ -14,8 +14,8 @@ const CandidateCard: React.FC<CandidateCardProps> = ({ currentCandidate, addCand
       <h2>{currentCandidate.name}</h2>
       <p>{currentCandidate.username}</p>
       <p>{currentCandidate.location}</p>
-      <button onClick={addCandidate}>Save Candidate</button>
-      <button onClick={() => removeCandidate(currentCandidate.username)}>Remove Candidate</button> {/* Remove button */}
+      <button onClick={() => removeCandidate(currentCandidate.username)}>Pass</button> {/* Remove button */}
+      <button onClick={addCandidate}>Add</button>
     </div>
   );
 };

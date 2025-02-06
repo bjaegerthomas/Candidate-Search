@@ -56,8 +56,9 @@ const CandidateSearch = () => {
       <h1>CandidateSearch</h1>
       <CandidateCard
         currentCandidate={currentCandidate} // Pass the current candidate to the card
-        addCandidate={addCandidate} // Pass function to add a candidate
         removeCandidate={removeCandidate} // Pass function to remove a candidate
+        addCandidate={addCandidate} // Pass function to add a candidate
+        
 />
     </>
   );
