@@ -1,43 +1,45 @@
 import React, { useEffect, useState } from 'react';
+import React from 'react';
+import Candidate from '../interfaces/Candidate.interface';
 
-interface Candidate {
-    id: number;
-    name: string;
-    position: string;
-    experience: number;
+const [storedCandidates, setStoredCandidates] = useState<Candidate[]>([]);
+
+useEffect(() => {
+    const savedCandidates = localStorage.getItem('savedCandidates');
+    if (savedCandidates) {
+        setStoredCandidates(JSON.parse(savedCandidates));
+    }
+}, []);
+
+interface SavedCandidatesCardProps {
+    storedCandidates: Candidate[];
+    removeFromPotentialCandidates: (id: string) => void;
 }
 
-const SavedCandidatesCard: React.FC = () => {
-    const [candidates, setCandidates] = useState<Candidate[]>([]);
-
-    useEffect(() => {
-        const savedCandidates = localStorage.getItem('savedCandidates');
-        if (savedCandidates) {
-            setCandidates(JSON.parse(savedCandidates));
-        }
-    }, []);
-
+const SavedCandidatesCard: React.FC<SavedCandidatesCardProps> = ({storedCandidates, removeFromPotentialCandidates}) => {
     return (
         <div>
-            <h2>Saved Candidates</h2>
             <table>
                 <thead>
                     <tr>
-                        <th>ID</th>
+                        <th>Avatar</th>
                         <th>Name</th>
-                        <th>Position</th>
-                        <th>Experience (years)</th>
+                        <th>Location</th>
+                        <th>Email</th>
+                        <th>Company</th>
+                        <th>Reject</th>
                     </tr>
                 </thead>
                 <tbody>
-                    {candidates.map(candidate => (
-                        <tr key={candidate.id}>
-                            <td>{candidate.id}</td>
-                            <td>{candidate.name}</td>
-                            <td>{candidate.position}</td>
-                            <td>{candidate.experience}</td>
+                    {storedCandidates.map(storedCandidate => (
+                        <tr key={storedCandidate.username}>
+                            <td>{storedCandidate.avatar}</td>
+                            <td>{storedCandidate.name}</td>
+                            <td>{storedCandidate.location}</td>
+                            <td>{storedCandidate.html_url}</td>
+                            <td>{storedCandidate.company}</td>
                             <td>
-                            <button onClick={() => removeFromSavedCandidates(candidate.id)}>Remove</button>
+                            <button onClick={() => removeFromPotentialCandidates(storedCandidate.username)}>Remove</button>
                             </td>
                         </tr>
                     ))}
