@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Candidate from '../interfaces/Candidate.interface';
 
 interface SavedCandidatesCardProps {
+    candidate: Candidate;
     removeFromPotentialCandidates: (id: string) => void;
 }
 

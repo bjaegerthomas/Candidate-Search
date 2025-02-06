@@ -1,39 +1,39 @@
 import { useState, useEffect } from 'react';
-import { searchGithub, searchGithubUser } from '../api/API';
 import Candidate from '../interfaces/Candidate.interface';
 import SavedCandidatesCard from '../components/SavedCandidatesCard';
 
-interface FilmsToWatchProps {
-  filmsToWatch: Film[];
-  removeFromStorage:
-    | ((
-        e: React.MouseEvent<SVGSVGElement, MouseEvent>,
-        currentlyOnWatchList: boolean | null | undefined,
-        currentlyOnSeenItList: boolean | null | undefined,
-        title: string | null
-      ) => void)
-    | null;
-}
+const SavedCandidates = () => {
+  const [savedCandidates, setSavedCandidates] = useState<Candidate[]>([]);
 
-const SavedCandidates = () => ({
-  filmsToWatch,
-  removeFromStorage,
-}: FilmsToWatchProps) => {
-  console.log(filmsToWatch);
+  useEffect(() => {
+    const saved = localStorage.getItem('savedCandidates');
+    if (saved) {
+      setSavedCandidates(JSON.parse(saved));
+    }
+  }, []);
+
+  const removeFromPotentialCandidates = (username: string) => {
+    setSavedCandidates((prevCandidates) => {
+      const updatedCandidates = prevCandidates.filter(candidate => candidate.username !== username);
+      localStorage.setItem('savedCandidates', JSON.stringify(updatedCandidates));
+      return updatedCandidates;
+    });
+  };
 
   return (
     <>
       <h1>Potential Candidates</h1>
-      <ul>
-        {filmsToWatch.map((film) => (
-          <FilmCard
-            currentFilm={film}
-            key={film.Title}
-            onWatchList={true}
-            removeFromStorage={removeFromStorage}
+      {savedCandidates.length > 0 ? (
+        savedCandidates.map(candidate => (
+          <SavedCandidatesCard 
+            key={candidate.username} 
+            candidate={candidate} 
+            removeFromPotentialCandidates={removeFromPotentialCandidates} 
           />
-        ))}
-      </ul>
+        ))
+      ) : (
+        <p>No candidates saved.</p>
+      )}
     </>
   );
 };
