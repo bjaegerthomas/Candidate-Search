@@ -22,7 +22,7 @@ const CandidateSearch = () => {
   }, []);
 
 
-  const addToSavedList = () => {
+  const addCandidate = () => {
     let parsedSavedCandidates: Candidate[] = [];
     const storedSavedCandidates = localStorage.getItem('savedCandidates');
     if (storedSavedCandidates) {
@@ -90,7 +90,7 @@ const CandidateSearch = () => {
       <h1>CandidateSearch</h1>
       <CandidateCard
         currentCandidate={currentCandidate}
-        addToSavedList={addToSavedList}
+        addCandidate={addCandidate} // Pass function to add a candidate
         removeCandidate={removeCandidate} // Pass function to remove a candidate
 />
     </>
