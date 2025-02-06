@@ -1,22 +1,20 @@
 import React, { useEffect, useState } from 'react';
-import React from 'react';
 import Candidate from '../interfaces/Candidate.interface';
 
-const [storedCandidates, setStoredCandidates] = useState<Candidate[]>([]);
-
-useEffect(() => {
-    const savedCandidates = localStorage.getItem('savedCandidates');
-    if (savedCandidates) {
-        setStoredCandidates(JSON.parse(savedCandidates));
-    }
-}, []);
-
 interface SavedCandidatesCardProps {
-    storedCandidates: Candidate[];
     removeFromPotentialCandidates: (id: string) => void;
 }
 
-const SavedCandidatesCard: React.FC<SavedCandidatesCardProps> = ({storedCandidates, removeFromPotentialCandidates}) => {
+const SavedCandidatesCard: React.FC<SavedCandidatesCardProps> = ({ removeFromPotentialCandidates }) => {
+    const [storedCandidates, setStoredCandidates] = useState<Candidate[]>([]);
+
+    useEffect(() => {
+        const savedCandidates = localStorage.getItem('savedCandidates');
+        if (savedCandidates) {
+            setStoredCandidates(JSON.parse(savedCandidates));
+        }
+    }, []);
+
     return (
         <div>
             <table>
@@ -33,13 +31,13 @@ const SavedCandidatesCard: React.FC<SavedCandidatesCardProps> = ({storedCandidat
                 <tbody>
                     {storedCandidates.map(storedCandidate => (
                         <tr key={storedCandidate.username}>
-                            <td>{storedCandidate.avatar}</td>
+                            <td><img src={storedCandidate.avatar} alt={storedCandidate.name} /></td>
                             <td>{storedCandidate.name}</td>
                             <td>{storedCandidate.location}</td>
                             <td>{storedCandidate.html_url}</td>
                             <td>{storedCandidate.company}</td>
                             <td>
-                            <button onClick={() => removeFromPotentialCandidates(storedCandidate.username)}>Remove</button>
+                                <button onClick={() => removeFromPotentialCandidates(storedCandidate.username)}>Remove</button>
                             </td>
                         </tr>
                     ))}
