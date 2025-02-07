@@ -11,6 +11,7 @@ const CandidateSearch = () => {
     avatar_url: '',
     html_url: '',
     company: '',
+    email: '',
   });
 
   const [currentIndex, setCurrentIndex] = useState(0);

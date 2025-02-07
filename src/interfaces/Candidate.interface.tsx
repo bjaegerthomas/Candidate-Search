@@ -5,4 +5,5 @@ export interface Candidate {
     avatar_url: string;
     html_url: string;
     company: string;
+    email: string;
     }
