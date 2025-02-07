@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
 import { searchGithub, searchGithubUser } from '../api/API';
 import CandidateCard from '../components/CandidateCard';
-import Candidate from '../interfaces/Candidate.interface';
+import {Candidate} from '../interfaces/Candidate.interface';
 
 const CandidateSearch = () => {
   const [currentCandidate, setCurrentCandidate] = useState<Candidate>({
     name: '',
-    username: '',
+    login: '',
     location: '',
-    avatar: '',
+    avatar_url: '',
     html_url: '',
     company: '',
   });
@@ -26,7 +26,7 @@ const CandidateSearch = () => {
   useEffect(() => { // Fetch the user data for the current index
     if (candidateList.length > 0) {
       const candidate = candidateList[currentIndex];
-      searchGithubUser(candidate.username).then((data) => {
+      searchGithubUser(candidate.login).then((data) => {
         setCurrentCandidate(data);
       });
     }
@@ -38,7 +38,7 @@ const CandidateSearch = () => {
     if (storedSavedCandidates) {
       parsedSavedCandidates = JSON.parse(storedSavedCandidates);
     }
-    if (!parsedSavedCandidates.some(c => c.username === currentCandidate.username)) {
+    if (!parsedSavedCandidates.some(c => c.login === currentCandidate.login)) {
       parsedSavedCandidates.push(currentCandidate);
       localStorage.setItem('savedCandidates', JSON.stringify(parsedSavedCandidates));
     }
@@ -46,7 +46,7 @@ const CandidateSearch = () => {
   };
 
   const removeCandidate = (username: string) => {  // Remove a candidate from the list
-    const updatedCandidateList = candidateList.filter(candidate => candidate.username !== username);
+    const updatedCandidateList = candidateList.filter(candidate => candidate.login !== username);
     setCandidateList(updatedCandidateList);
     setCurrentIndex((prevIndex) => (prevIndex + 1) % updatedCandidateList.length); // Update currentIndex after removal
   };
