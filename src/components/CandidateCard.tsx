@@ -3,7 +3,7 @@ import {Candidate} from '../interfaces/Candidate.interface';
 
 interface CandidateCardProps {
   currentCandidate: Candidate;
-  addCandidate: () => void;
+  addCandidate: (login: string) => void;
   removeCandidate: (username: string) => void;
 }
 
@@ -14,10 +14,11 @@ const CandidateCard: React.FC<CandidateCardProps> = ({ currentCandidate, addCand
       <h2>{currentCandidate.name || "No Name Provided"}</h2>
       <p>{currentCandidate.login || "No Username"}</p>
       <p>{currentCandidate.location || "Location Unknown"}</p>
+      <p>{currentCandidate.email || "No Email"}</p>
       <p>{currentCandidate.html_url}</p>
       <p>{currentCandidate.company || "No Company"}</p>
       <button onClick={() => removeCandidate(currentCandidate.login)}>Pass</button> {/* Remove button */}
-      <button onClick={addCandidate}>Add</button>
+      <button onClick={() => addCandidate(currentCandidate.login)}>Add</button>
     </div>
   );
 };

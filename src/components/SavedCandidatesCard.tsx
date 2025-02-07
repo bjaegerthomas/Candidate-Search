@@ -33,10 +33,9 @@ const SavedCandidatesCard: React.FC<SavedCandidatesCardProps> = ({ removeFromPot
                     {storedCandidates.map(storedCandidate => (
                         <tr key={storedCandidate.login}>
                             <td><img src={storedCandidate.avatar_url} alt={storedCandidate.name || "No Name"} /></td>
-                            <td>{storedCandidate.name || "Unknown"}</td>
+                            <td>{storedCandidate.name || storedCandidate.login}</td>
                             <td>{storedCandidate.location || "Not specified"}</td>
                             <td>{storedCandidate.email || "Not specified"}</td>
-                            <td>{storedCandidate.html_url}</td>
                             <td>{storedCandidate.company || "No Company"}</td>
                             <td>
                                 <button onClick={() => removeFromPotentialCandidates(storedCandidate.login)}>Remove</button>
