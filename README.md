@@ -1,33 +1,32 @@
-# React + TypeScript + Vite
+# Candidate Search
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+  ## License
+  [![License: CC0-1.0](https://licensebuttons.net/l/zero/1.0/80x15.png)](http://creativecommons.org/publicdomain/zero/1.0/)
+  [Creative Commons licenses (for documentation)](http://creativecommons.org/publicdomain/zero/1.0/)
 
-Currently, two official plugins are available:
+  ## Contents
+  ---------
+  - [License](#license)
+  - [Description](#description)
+  - [Contribution](#contribution)
+  - [Tests](#tests)
+  - [Questions](#questions)
 
-* [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md), which uses [Babel](https://babeljs.io/) for Fast Refresh
-* [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc), which uses [SWC](https://swc.rs/) for Fast Refresh
+  ## Description
+  This application uses a Github Api token to allow you to search through a random selection of 30 github profiles as potential candidates for a possible job. You can vote either thumbs up or thumbs down to move them out of the list of candidates or to save the ones you like and then view them on a separate table for further review.
 
-## Expanding the ESLint configuration
+  ## Contribution
+ After cloning the repository be sure to create a new branch for your feature or fix.
+  Make your changes and commit them with descriptive messages.
+  Submit a Pull Request with clear explanations of your modifications.
+  Use meaningful variable names and comments.
+  Follow guidelines for Typescript and React code formatting.
 
-If you're developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+  ## Tests
+  Below is a link to the deployed version of my site on Render.
 
-* Configure the top-level `parserOptions` property as follows:
+  https://bjtpersonalsite.netlify.app
 
-```js
-export default {
-  // other rules...
-  parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module',
-    project: ['./tsconfig.json', './tsconfig.node.json'],
-    tsconfigRootDir: __dirname,
-  },
-}
-```
-
-* Replace `plugin:@typescript-eslint/recommended` with `plugin:@typescript-eslint/recommended-type-checked` or `plugin:@typescript-eslint/strict-type-checked`.
-* Optionally, add `plugin:@typescript-eslint/stylistic-type-checked`.
-* Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and add `plugin:react/recommended` and `plugin:react/jsx-runtime` to the `extends` list.
-
----
-© 2024 edX Boot Camps LLC. Confidential and Proprietary. All Rights Reserved.
+  ## Questions
+  - GitHub: [bjaegerthomas](https://github.com/bjaegerthomas)
+  - Email: bjaegerthomas@gmail.com
