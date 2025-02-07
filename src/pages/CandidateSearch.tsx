@@ -43,14 +43,18 @@ const CandidateSearch = () => {
     if (candidateToAdd && !parsedSavedCandidates.some(c => c.login === candidateToAdd.login)) {
       parsedSavedCandidates.push(candidateToAdd);
       localStorage.setItem('savedCandidates', JSON.stringify(parsedSavedCandidates));
+      console.log('Candidate added to saved candidates');
     }
     setCurrentIndex((prevIndex) => (prevIndex + 1) % candidateList.length); // Update currentIndex to the next index in order
+    console.log('index', currentIndex);
   };
 
   const removeCandidate = (login: string) => {  // Remove a candidate from the list
     const updatedCandidateList = candidateList.filter(candidate => candidate.login !== login);
     setCandidateList(updatedCandidateList);
+    console.log('Candidate removed');
     setCurrentIndex((prevIndex) => (prevIndex + 1) % updatedCandidateList.length); // Update currentIndex after removal
+    console.log('index', currentIndex);
   };
 
   return (
