@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import Candidate from '../interfaces/Candidate.interface';
+import {Candidate} from '../interfaces/Candidate.interface';
 
 interface SavedCandidatesCardProps {
-    candidate: Candidate;
+
     removeFromPotentialCandidates: (id: string) => void;
 }
 
@@ -31,14 +31,15 @@ const SavedCandidatesCard: React.FC<SavedCandidatesCardProps> = ({ removeFromPot
                 </thead>
                 <tbody>
                     {storedCandidates.map(storedCandidate => (
-                        <tr key={storedCandidate.username}>
-                            <td><img src={storedCandidate.avatar} alt={storedCandidate.name} /></td>
-                            <td>{storedCandidate.name}</td>
-                            <td>{storedCandidate.location}</td>
+                        <tr key={storedCandidate.login}>
+                            <td><img src={storedCandidate.avatar_url} alt={storedCandidate.name || "No Name"} /></td>
+                            <td>{storedCandidate.name || "Unknown"}</td>
+                            <td>{storedCandidate.location || "Not specified"}</td>
+                            <td>{storedCandidate.email || "Not specified"}</td>
                             <td>{storedCandidate.html_url}</td>
-                            <td>{storedCandidate.company}</td>
+                            <td>{storedCandidate.company || "No Company"}</td>
                             <td>
-                                <button onClick={() => removeFromPotentialCandidates(storedCandidate.username)}>Remove</button>
+                                <button onClick={() => removeFromPotentialCandidates(storedCandidate.id)}>Remove</button>
                             </td>
                         </tr>
                     ))}
