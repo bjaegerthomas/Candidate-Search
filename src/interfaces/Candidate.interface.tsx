@@ -1,8 +1,8 @@
 export interface Candidate {
     name: string;
-    username: string;
+    login: string;
     location: string;
-    avatar: string;
+    avatar_url: string;
     html_url: string;
     company: string;
     }
