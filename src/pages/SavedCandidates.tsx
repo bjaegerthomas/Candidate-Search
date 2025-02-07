@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import Candidate from '../interfaces/Candidate.interface';
+import {Candidate} from '../interfaces/Candidate.interface';
 import SavedCandidatesCard from '../components/SavedCandidatesCard';
 
 const SavedCandidates = () => {
@@ -14,7 +14,7 @@ const SavedCandidates = () => {
 
   const removeFromPotentialCandidates = (username: string) => {
     setSavedCandidates((prevCandidates) => {
-      const updatedCandidates = prevCandidates.filter(candidate => candidate.username !== username);
+      const updatedCandidates = prevCandidates.filter(candidate => candidate.login !== username);
       localStorage.setItem('savedCandidates', JSON.stringify(updatedCandidates));
       return updatedCandidates;
     });
@@ -26,7 +26,7 @@ const SavedCandidates = () => {
       {savedCandidates.length > 0 ? (
         savedCandidates.map(candidate => (
           <SavedCandidatesCard 
-            key={candidate.username} 
+            key={candidate.login} 
             candidate={candidate} 
             removeFromPotentialCandidates={removeFromPotentialCandidates} 
           />

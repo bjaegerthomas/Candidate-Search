@@ -2,9 +2,9 @@ import React, { useEffect, useState } from 'react';
 import {Candidate} from '../interfaces/Candidate.interface';
 
 interface SavedCandidatesCardProps {
-
-    removeFromPotentialCandidates: (id: string) => void;
-}
+    candidate: Candidate;
+    removeFromPotentialCandidates: (username: string) => void;
+  }
 
 const SavedCandidatesCard: React.FC<SavedCandidatesCardProps> = ({ removeFromPotentialCandidates }) => {
     const [storedCandidates, setStoredCandidates] = useState<Candidate[]>([]);
@@ -39,7 +39,7 @@ const SavedCandidatesCard: React.FC<SavedCandidatesCardProps> = ({ removeFromPot
                             <td>{storedCandidate.html_url}</td>
                             <td>{storedCandidate.company || "No Company"}</td>
                             <td>
-                                <button onClick={() => removeFromPotentialCandidates(storedCandidate.id)}>Remove</button>
+                                <button onClick={() => removeFromPotentialCandidates(storedCandidate.login)}>Remove</button>
                             </td>
                         </tr>
                     ))}
