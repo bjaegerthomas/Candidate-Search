@@ -8,5 +8,7 @@ export default defineConfig({
   server: {
     port: 3000,
     host: '0.0.0.0', // Ensure it's accessible externally
+    strictPort: true,
+    allowedHosts: ['candidate-search-w76u.onrender.com'],
   },
 });
