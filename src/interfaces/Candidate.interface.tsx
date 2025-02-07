@@ -1,8 +1,8 @@
-export default interface Candidate {
-    readonly name: string;
-    readonly username: string;
-    readonly location: string;
-    readonly avatar: string;
-    readonly html_url: string;
-    readonly company: string;
+export interface Candidate {
+    name: string;
+    username: string;
+    location: string;
+    avatar: string;
+    html_url: string;
+    company: string;
     }

@@ -1,5 +1,5 @@
 import React from 'react';
-import Candidate from '../interfaces/Candidate.interface';
+import {Candidate} from '../interfaces/Candidate.interface';
 
 interface CandidateCardProps {
   currentCandidate: Candidate;
@@ -10,11 +10,13 @@ interface CandidateCardProps {
 const CandidateCard: React.FC<CandidateCardProps> = ({ currentCandidate, addCandidate, removeCandidate }) => {
   return (
     <div className="candidate-card">
-      <img src={currentCandidate.avatar} alt={currentCandidate.name} />
-      <h2>{currentCandidate.name}</h2>
-      <p>{currentCandidate.username}</p>
-      <p>{currentCandidate.location}</p>
-      <button onClick={() => removeCandidate(currentCandidate.username)}>Pass</button> {/* Remove button */}
+      <img src={currentCandidate.avatar_url} alt={currentCandidate.login || "Candidate Avatar"} />
+      <h2>{currentCandidate.name || "No Name Provided"}</h2>
+      <p>{currentCandidate.login || "No Username"}</p>
+      <p>{currentCandidate.location || "Location Unknown"}</p>
+      <p>{currentCandidate.html_url}</p>
+      <p>{currentCandidate.company || "No Company"}</p>
+      <button onClick={() => removeCandidate(currentCandidate.login)}>Pass</button> {/* Remove button */}
       <button onClick={addCandidate}>Add</button>
     </div>
   );
