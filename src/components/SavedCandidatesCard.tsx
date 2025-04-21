@@ -1,52 +1,57 @@
-import React, { useEffect, useState } from 'react';
-import {Candidate} from '../interfaces/Candidate.interface';
+import { useEffect, useState } from 'react';
+import SavedCandidates from './SavedCandidates';
+import type { Candidate } from '../interfaces/Candidate.interface';
 
-type SavedCandidatesCardProps = {
-    candidate: Candidate;
-    removeFromPotentialCandidates: (username: string) => void;
-    rejectCandidate: (id: number) => void;
-  }
+// Map over the savedCandidates array in local storage and render a SavedCandidate card for each candidate.
+const SavedCandidateList = () => {
+  const [potentialCandidates, setPotentialCandidates] = useState<Candidate[]>(
+    []
+  );
 
-const SavedCandidatesCard: React.FC<SavedCandidatesCardProps> = ({ removeFromPotentialCandidates }) => {
-    const [storedCandidates, setStoredCandidates] = useState<Candidate[]>([]);
-
-    useEffect(() => {
-        const savedCandidates = localStorage.getItem('savedCandidates');
-        if (savedCandidates) {
-            setStoredCandidates(JSON.parse(savedCandidates));
-        }
-    }, []);
-
-    return (
-        <div>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Avatar</th>
-                        <th>Name</th>
-                        <th>Location</th>
-                        <th>Email</th>
-                        <th>Company</th>
-                        <th>Reject</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {storedCandidates.map(storedCandidate => (
-                        <tr key={storedCandidate.login}>
-                            <td><img src={storedCandidate.avatar_url || ''} alt={storedCandidate.name || "No Name"} /></td>
-                            <td>{storedCandidate.name || storedCandidate.login}</td>
-                            <td>{storedCandidate.location || "Not specified"}</td>
-                            <td>{storedCandidate.email || "Not specified"}</td>
-                            <td>{storedCandidate.company || "No Company"}</td>
-                            <td>
-                                <button onClick={() => storedCandidate.login && removeFromPotentialCandidates(storedCandidate.login)}>Remove</button>
-                            </td>
-                        </tr>
-                    ))}
-                </tbody>
-            </table>
-        </div>
+  useEffect(() => {
+    const savedCandidates = localStorage.getItem('savedCandidates');
+    let candidates: Candidate[] = [];
+    if (typeof savedCandidates === 'string') {
+      candidates = JSON.parse(savedCandidates);
+    }
+    setPotentialCandidates(candidates);
+  }, []);
+  const rejectCandidate = (id: number) => {
+    let parsedCandidates: Candidate[] = [];
+    const savedCandidates = localStorage.getItem('savedCandidates');
+    if (typeof savedCandidates === 'string') {
+      parsedCandidates = JSON.parse(savedCandidates);
+    }
+    parsedCandidates = parsedCandidates.filter(
+      (person: Candidate) => person.id !== id
     );
+    localStorage.setItem('savedCandidates', JSON.stringify(parsedCandidates));
+    setPotentialCandidates(parsedCandidates);
+  };
+  return (
+    <table className='table'>
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Email</th>
+          <th>Company</th>
+          <th>Bio</th>
+          <th>Reject</th>
+        </tr>
+      </thead>
+      <tbody>
+        {potentialCandidates.map((candidate) => (
+          <SavedCandidates
+            key={candidate.id}
+            candidate={candidate}
+            rejectCandidate={rejectCandidate}
+          />
+        ))}
+      </tbody>
+    </table>
+  );
 };
 
-export default SavedCandidatesCard;
+export default SavedCandidateList;

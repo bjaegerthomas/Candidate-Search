@@ -8,5 +8,5 @@ export interface Candidate {
     bio: string | null;
     company: string | null;
     location: string | null;
-    username: string;
   }
+  

@@ -1,10 +1,12 @@
 import { useState, useEffect } from 'react';
+
 import { searchGithub, searchGithubUser } from '../api/API';
 import CandidateCard from '../components/CandidateCard';
-import {Candidate} from '../interfaces/Candidate.interface';
+import type { Candidate } from '../interfaces/Candidate.interface';
 
 const CandidateSearch = () => {
-  const [currentCandidate, setCurrentCandidate] = useState<Candidate>({
+  const [results, setResults] = useState<Candidate[]>([]);
+  const [currentUser, setCurrentUser] = useState<Candidate>({
     id: null,
     login: null,
     email: null,
@@ -14,63 +16,53 @@ const CandidateSearch = () => {
     company: null,
     location: null,
     avatar_url: null,
-    username: "",
   });
+  const [currentIdx, setCurrentIdx] = useState<number>(0);
 
-  const [currentIndex, setCurrentIndex] = useState(0);
+  const searchForSpecificUser = async (user: string) => {
+    const data: Candidate = await searchGithubUser(user);
 
-  const [candidateList, setCandidateList] = useState<Candidate[]>([]);
+    setCurrentUser(data);
+  };
 
-  useEffect(() => { // Fetch random 30 element array of users from the github API
-    searchGithub().then((data) => {
-      setCandidateList(data);
-    });
-  }, []);
+  const searchForUsers = async () => {
+    const data: Candidate[] = await searchGithub();
 
-  useEffect(() => { // Fetch the user data for the current index
-    if (candidateList.length > 0) {
-      const candidate = candidateList[currentIndex];
-      if (candidate.login) {
-        searchGithubUser(candidate.login).then((data) => {
-          setCurrentCandidate(data);
-        });
+    setResults(data);
+
+    await searchForSpecificUser(data[currentIdx].login || '');
+  };
+
+  const makeDecision = async (isSelected: boolean) => {
+    if (isSelected) {
+      let parsedCandidates: Candidate[] = [];
+      const savedCandidates = localStorage.getItem('savedCandidates');
+      if (typeof savedCandidates === 'string') {
+        parsedCandidates = JSON.parse(savedCandidates);
       }
+      parsedCandidates.push(currentUser);
+      localStorage.setItem('savedCandidates', JSON.stringify(parsedCandidates));
     }
-  }, [currentIndex, candidateList]);
-
-  const addCandidate = (login: string) => { // Add a candidate to the saved candidates list
-    let parsedSavedCandidates: Candidate[] = [];
-    const storedSavedCandidates = localStorage.getItem('savedCandidates');
-    if (storedSavedCandidates) {
-      parsedSavedCandidates = JSON.parse(storedSavedCandidates);
+    if (currentIdx + 1 < results.length) {
+      setCurrentIdx(currentIdx + 1);
+      await searchForSpecificUser(results[currentIdx + 1].login || '');
+    } else {
+      setCurrentIdx(0);
+      await searchForUsers();
     }
-    const candidateToAdd = candidateList.find(candidate => candidate.login === login);
-    if (candidateToAdd && !parsedSavedCandidates.some(c => c.login === candidateToAdd.login)) {
-      parsedSavedCandidates.push(candidateToAdd);
-      localStorage.setItem('savedCandidates', JSON.stringify(parsedSavedCandidates));
-      console.log('Candidate added to saved candidates');
-    }
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % candidateList.length); // Update currentIndex to the next index in order
-    console.log('index', currentIndex);
   };
 
-  const removeCandidate = (login: string) => {  // Remove a candidate from the list
-    const updatedCandidateList = candidateList.filter(candidate => candidate.login !== login);
-    setCandidateList(updatedCandidateList);
-    console.log('Candidate removed');
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % updatedCandidateList.length); // Update currentIndex after removal
-    console.log('index', currentIndex);
-  };
+  // biome-ignore lint/correctness/useExhaustiveDependencies: Dependency array is correct
+  useEffect(() => {
+    searchForUsers();
+    searchForSpecificUser(currentUser.login || '');
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
-      <h1>CandidateSearch</h1>
-      <CandidateCard
-        currentCandidate={currentCandidate} // Pass the current candidate to the card
-        removeCandidate={removeCandidate} // Pass function to remove a candidate
-        addCandidate={addCandidate} // Pass function to add a candidate
-        
-/>
+      <h1>Candidate Search</h1>
+      <CandidateCard currentUser={currentUser} makeDecision={makeDecision} />
     </>
   );
 };
