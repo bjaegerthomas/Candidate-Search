@@ -1,68 +1,57 @@
+import { useEffect, useState } from 'react';
+import SavedCandidatesCard from './SavedCandidatesCard';
 import type { Candidate } from '../interfaces/Candidate.interface';
-import { IoRemoveCircle } from 'react-icons/io5';
 
-// To be rendered in the SavedCandidateList
-type SavedCandidateProps = {
-  candidate: Candidate;
-  rejectCandidate: (id: number) => void;
-};
-const SavedCandidate = ({
-  candidate,
-  rejectCandidate,
-}: SavedCandidateProps) => {
+// Map over the savedCandidates array in local storage and render a SavedCandidate card for each candidate.
+const SavedCandidateList = () => {
+  const [potentialCandidates, setPotentialCandidates] = useState<Candidate[]>(
+    []
+  );
+  
+  useEffect(() => {
+    const savedCandidates = localStorage.getItem('savedCandidates');
+    let candidates: Candidate[] = [];
+    if (typeof savedCandidates === 'string') {
+      candidates = JSON.parse(savedCandidates);
+    }
+    setPotentialCandidates(candidates);
+  }, []);
+  const rejectCandidate = (id: number) => {
+    let parsedCandidates: Candidate[] = [];
+    const savedCandidates = localStorage.getItem('savedCandidates');
+    if (typeof savedCandidates === 'string') {
+      parsedCandidates = JSON.parse(savedCandidates);
+    }
+    parsedCandidates = parsedCandidates.filter(
+      (person: Candidate) => person.id !== id
+    );
+    localStorage.setItem('savedCandidates', JSON.stringify(parsedCandidates));
+    setPotentialCandidates(parsedCandidates);
+  };
   return (
-    <tr>
-      {candidate ? (
-        <>
-          <td>
-            <img
-              src={`${candidate.avatar_url}`}
-              alt={`Profile of ${candidate.login}`}
-              style={{
-                width: '70px',
-                borderRadius: '10px',
-                display: 'block',
-                margin: '0 auto',
-              }}
-            />
-          </td>
-          <td>
-            <a href={candidate.html_url || ''} target='_blank' rel='noreferrer'>
-              <h3 style={{ color: 'white' }}>
-                {candidate.name}
-                <br />
-                <em>({candidate.login})</em>
-              </h3>
-            </a>
-          </td>
-          <td>{candidate.location}</td>
-          <td>
-            <a href={`mailto:${candidate.email}`}>{candidate.email}</a>
-          </td>
-          <td>{candidate.company}</td>
-          <td>
-            <div style={{ maxHeight: '100px', overflowY: 'scroll' }}>
-              {candidate.bio}
-            </div>
-          </td>
-          <td>
-            <IoRemoveCircle
-              style={{
-                color: 'red',
-                margin: '0 auto',
-                display: 'block',
-                cursor: 'pointer',
-                fontSize: '50px',
-              }}
-              onClick={() => rejectCandidate(candidate.id || 0)}
-            />
-          </td>
-        </>
-      ) : (
-        <h2>No Candidates at this time</h2>
-      )}
-    </tr>
+    <table className='table'>
+      <thead>
+        <tr>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Location</th>
+          <th>Email</th>
+          <th>Company</th>
+          <th>Bio</th>
+          <th>Reject</th>
+        </tr>
+      </thead>
+      <tbody>
+        {potentialCandidates.map((candidate) => (
+          <SavedCandidatesCard
+            key={candidate.id}
+            candidate={candidate}
+            rejectCandidate={rejectCandidate}
+          />
+        ))}
+      </tbody>
+    </table>
   );
 };
 
-export default SavedCandidate;
+export default SavedCandidateList;

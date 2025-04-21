@@ -8,5 +8,6 @@ export interface Candidate {
     bio: string | null;
     company: string | null;
     location: string | null;
+    rejectCandidate?: (id: number) => void;
   }
   
