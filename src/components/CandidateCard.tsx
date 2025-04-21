@@ -4,8 +4,8 @@ import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 
 type CandidateCardProps = {
   currentCandidate: Candidate;
-  addCandidate: (login: string) => void;
-  removeCandidate: (username: string) => void;
+  addCandidate?: (login: string) => void;
+  removeCandidate?: (username: string) => void;
 }
 
 const CandidateCard: React.FC<CandidateCardProps> = ({ currentCandidate, addCandidate, removeCandidate }) => {
@@ -18,8 +18,8 @@ const CandidateCard: React.FC<CandidateCardProps> = ({ currentCandidate, addCand
       <p>Email: {currentCandidate.email || "No Email"}</p>
       <p>Github Url: {currentCandidate.html_url}</p>
       <p>Company: {currentCandidate.company || "No Company"}</p>
-      <button onClick={() => currentCandidate.login && removeCandidate(currentCandidate.login)}><FaThumbsDown /></button> {/* Remove button */}
-      <button onClick={() => currentCandidate.login && addCandidate(currentCandidate.login)}><FaThumbsUp /></button>
+      <button onClick={() => currentCandidate.login && removeCandidate && removeCandidate(currentCandidate.login)}><FaThumbsDown /></button> {/* Remove button */}
+      <button onClick={() => currentCandidate.login && addCandidate && addCandidate(currentCandidate.login)}><FaThumbsUp /></button>
     </div>
   );
 };
