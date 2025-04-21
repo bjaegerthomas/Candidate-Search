@@ -1,9 +1,12 @@
 export interface Candidate {
-    name: string;
-    login: string;
-    location: string;
-    avatar_url: string;
-    html_url: string;
-    company: string;
-    email: string;
-    }
+    id: number | null;
+    login: string | null;
+    email: string | null;
+    html_url: string | null;
+    name: string | null;
+    avatar_url: string | null;
+    bio: string | null;
+    company: string | null;
+    location: string | null;
+    username: string;
+  }

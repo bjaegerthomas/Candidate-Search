@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import {Candidate} from '../interfaces/Candidate.interface';
 
-interface SavedCandidatesCardProps {
+type SavedCandidatesCardProps = {
     candidate: Candidate;
     removeFromPotentialCandidates: (username: string) => void;
+    rejectCandidate: (id: number) => void;
   }
 
 const SavedCandidatesCard: React.FC<SavedCandidatesCardProps> = ({ removeFromPotentialCandidates }) => {
@@ -32,13 +33,13 @@ const SavedCandidatesCard: React.FC<SavedCandidatesCardProps> = ({ removeFromPot
                 <tbody>
                     {storedCandidates.map(storedCandidate => (
                         <tr key={storedCandidate.login}>
-                            <td><img src={storedCandidate.avatar_url} alt={storedCandidate.name || "No Name"} /></td>
+                            <td><img src={storedCandidate.avatar_url || ''} alt={storedCandidate.name || "No Name"} /></td>
                             <td>{storedCandidate.name || storedCandidate.login}</td>
                             <td>{storedCandidate.location || "Not specified"}</td>
                             <td>{storedCandidate.email || "Not specified"}</td>
                             <td>{storedCandidate.company || "No Company"}</td>
                             <td>
-                                <button onClick={() => removeFromPotentialCandidates(storedCandidate.login)}>Remove</button>
+                                <button onClick={() => storedCandidate.login && removeFromPotentialCandidates(storedCandidate.login)}>Remove</button>
                             </td>
                         </tr>
                     ))}

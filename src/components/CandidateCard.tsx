@@ -2,7 +2,7 @@ import React from 'react';
 import {Candidate} from '../interfaces/Candidate.interface';
 import { FaThumbsUp, FaThumbsDown } from 'react-icons/fa';
 
-interface CandidateCardProps {
+type CandidateCardProps = {
   currentCandidate: Candidate;
   addCandidate: (login: string) => void;
   removeCandidate: (username: string) => void;
@@ -11,15 +11,15 @@ interface CandidateCardProps {
 const CandidateCard: React.FC<CandidateCardProps> = ({ currentCandidate, addCandidate, removeCandidate }) => {
   return (
     <div className="candidate-card">
-      <img src={currentCandidate.avatar_url} alt={currentCandidate.login || "Candidate Avatar"} />
+      <img src={currentCandidate.avatar_url || undefined} alt={currentCandidate.login || "Candidate Avatar"} />
       <h2>Name: {currentCandidate.name || "No Name Provided"}</h2>
       <p>Username: {currentCandidate.login || "No Username"}</p>
       <p>Location{currentCandidate.location || "Location Unknown"}</p>
       <p>Email: {currentCandidate.email || "No Email"}</p>
       <p>Github Url: {currentCandidate.html_url}</p>
       <p>Company: {currentCandidate.company || "No Company"}</p>
-      <button onClick={() => removeCandidate(currentCandidate.login)}><FaThumbsDown /></button> {/* Remove button */}
-      <button onClick={() => addCandidate(currentCandidate.login)}><FaThumbsUp /></button>
+      <button onClick={() => currentCandidate.login && removeCandidate(currentCandidate.login)}><FaThumbsDown /></button> {/* Remove button */}
+      <button onClick={() => currentCandidate.login && addCandidate(currentCandidate.login)}><FaThumbsUp /></button>
     </div>
   );
 };

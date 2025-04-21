@@ -5,13 +5,16 @@ import {Candidate} from '../interfaces/Candidate.interface';
 
 const CandidateSearch = () => {
   const [currentCandidate, setCurrentCandidate] = useState<Candidate>({
-    name: '',
-    login: '',
-    location: '',
-    avatar_url: '',
-    html_url: '',
-    company: '',
-    email: '',
+    id: null,
+    login: null,
+    email: null,
+    html_url: null,
+    name: null,
+    bio: null,
+    company: null,
+    location: null,
+    avatar_url: null,
+    username: "",
   });
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -27,9 +30,11 @@ const CandidateSearch = () => {
   useEffect(() => { // Fetch the user data for the current index
     if (candidateList.length > 0) {
       const candidate = candidateList[currentIndex];
-      searchGithubUser(candidate.login).then((data) => {
-        setCurrentCandidate(data);
-      });
+      if (candidate.login) {
+        searchGithubUser(candidate.login).then((data) => {
+          setCurrentCandidate(data);
+        });
+      }
     }
   }, [currentIndex, candidateList]);
 
